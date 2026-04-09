@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 news_aggregator.py)",
+      "Bash(open /Users/oswaldootero/News/news_digest.html)",
+      "Bash(php news_aggregator.php)",
+      "Read(//opt/homebrew/**)",
+      "Bash(brew list:*)",
+      "Bash(/usr/local/bin/php /Users/oswaldootero/News/news_aggregator.php)",
+      "Bash(sqlite3 /Users/oswaldootero/News/news_store.db \"SELECT category, COUNT\\(*\\) FROM articles GROUP BY category ORDER BY COUNT\\(*\\) DESC;\")",
+      "Bash(sqlite3 /Users/oswaldootero/News/news_store.db \"SELECT article_id, category, json_extract\\(data, ''$.title''\\) AS title FROM articles LIMIT 3;\")"
+    ]
+  }
+}
