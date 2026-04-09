@@ -232,30 +232,35 @@ def generate_html(articles: list[dict]) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product and Tech News</title>
+<title>Dazos PM News</title>
 <style>
   :root {{
-    --accent: #00B4C5;
-    --accent-dark: #009AA8;
-    --text: #1A1A2E;
-    --bg: #FFFFFF;
-    --bg-light: #F4F6F8;
-    --border: #E2E6EA;
-    --muted: #6B7280;
+    --bg: #0b1929;
+    --bg2: #0f2132;
+    --card: #132840;
+    --card2: #1a3350;
+    --border: #1e3d5c;
+    --accent: #00aaff;
+    --accent2: #0088cc;
+    --text: #ffffff;
+    --text2: #8aaccc;
+    --text3: #4a7a9b;
     --radius: 12px;
   }}
   *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
   body {{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: var(--bg-light);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(ellipse at 50% 40%, #0f2d4a 0%, var(--bg) 70%);
+    background-attachment: fixed;
     color: var(--text);
     line-height: 1.6;
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }}
 
   /* Header */
   header {{
-    background: var(--bg);
+    background: var(--bg2);
     border-bottom: 1px solid var(--border);
     padding: 2rem 1.5rem 1.5rem;
     text-align: center;
@@ -268,7 +273,7 @@ def generate_html(articles: list[dict]) -> str:
   }}
   header h1 span {{ color: var(--accent); }}
   .subtitle {{
-    color: var(--muted);
+    color: var(--text2);
     font-size: 0.875rem;
     margin-top: 0.25rem;
   }}
@@ -280,7 +285,7 @@ def generate_html(articles: list[dict]) -> str:
     justify-content: center;
     gap: 0.5rem;
     padding: 1rem 1.5rem;
-    background: var(--bg);
+    background: var(--bg2);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
@@ -290,8 +295,8 @@ def generate_html(articles: list[dict]) -> str:
     padding: 0.45rem 1.1rem;
     border: 1px solid var(--border);
     border-radius: 999px;
-    background: var(--bg);
-    color: var(--muted);
+    background: var(--card);
+    color: var(--text2);
     font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
@@ -300,6 +305,7 @@ def generate_html(articles: list[dict]) -> str:
   .filters button:hover {{
     border-color: var(--accent);
     color: var(--accent);
+    background: var(--card2);
   }}
   .filters button.active {{
     background: var(--accent);
@@ -321,7 +327,7 @@ def generate_html(articles: list[dict]) -> str:
 
   /* Card */
   .card {{
-    background: var(--bg);
+    background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1.5rem;
@@ -330,8 +336,9 @@ def generate_html(articles: list[dict]) -> str:
     transition: box-shadow 0.2s ease, transform 0.2s ease;
   }}
   .card:hover {{
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 24px rgba(0, 170, 255, 0.08);
     transform: translateY(-2px);
+    border-color: var(--accent2);
   }}
   .card.hidden {{ display: none; }}
 
@@ -349,12 +356,12 @@ def generate_html(articles: list[dict]) -> str:
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
-    color: var(--accent-dark);
+    background: rgba(0, 170, 255, 0.12);
+    color: var(--accent);
   }}
   .date {{
     font-size: 0.78rem;
-    color: var(--muted);
+    color: var(--text3);
   }}
 
   .card-title {{
@@ -373,7 +380,7 @@ def generate_html(articles: list[dict]) -> str:
 
   .excerpt {{
     font-size: 0.88rem;
-    color: var(--muted);
+    color: var(--text2);
     line-height: 1.55;
     flex: 1;
     margin-bottom: 1rem;
@@ -389,7 +396,7 @@ def generate_html(articles: list[dict]) -> str:
   }}
   .source {{
     font-size: 0.75rem;
-    color: var(--muted);
+    color: var(--text3);
     font-weight: 500;
   }}
   .read-more {{
@@ -402,7 +409,7 @@ def generate_html(articles: list[dict]) -> str:
 
   .empty {{
     text-align: center;
-    color: var(--muted);
+    color: var(--text2);
     grid-column: 1 / -1;
     padding: 3rem 0;
   }}
@@ -411,7 +418,7 @@ def generate_html(articles: list[dict]) -> str:
   .count {{
     text-align: center;
     font-size: 0.8rem;
-    color: var(--muted);
+    color: var(--text3);
     padding: 0.75rem 0 0;
   }}
 
@@ -420,7 +427,53 @@ def generate_html(articles: list[dict]) -> str:
     text-align: center;
     padding: 2rem 1rem;
     font-size: 0.78rem;
-    color: var(--muted);
+    color: var(--text3);
+  }}
+
+  /* Refresh bar */
+  .refresh-bar {{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+  }}
+  .last-refreshed {{
+    font-size: 0.8rem;
+    color: var(--text3);
+  }}
+  .refresh-btn {{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card2);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }}
+  .refresh-btn:hover {{
+    background: var(--border);
+    border-color: var(--accent);
+  }}
+  .refresh-btn.loading {{
+    opacity: 0.6;
+    pointer-events: none;
+  }}
+  .refresh-btn svg {{
+    transition: transform 0.3s;
+  }}
+  .refresh-btn.loading svg {{
+    animation: spin 0.8s linear infinite;
+  }}
+  @keyframes spin {{
+    to {{ transform: rotate(360deg); }}
   }}
 
   @media (max-width: 700px) {{
@@ -432,9 +485,17 @@ def generate_html(articles: list[dict]) -> str:
 <body>
 
 <header>
-  <h1>Product and <span>Tech News</span></h1>
+  <h1>Dazos <span>PM News</span></h1>
   <p class="subtitle">Weekly digest &middot; Updated {now_str}</p>
 </header>
+
+<div class="refresh-bar">
+  <span class="last-refreshed" id="last-refreshed">Last refreshed: {now_str}</span>
+  <button class="refresh-btn" id="refresh-btn" title="Refresh news">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+    Refresh
+  </button>
+</div>
 
 <nav class="filters" id="filters">
   <button class="active" data-filter="All">All</button>
@@ -452,7 +513,7 @@ def generate_html(articles: list[dict]) -> str:
 </main>
 
 <footer>
-  Generated by News Aggregator &middot; {now_str}
+  Dazos PM News &middot; {now_str}
 </footer>
 
 <script>
@@ -477,6 +538,31 @@ def generate_html(articles: list[dict]) -> str:
       btn.classList.add('active');
       update(btn.dataset.filter);
     }});
+  }});
+
+  // Refresh button
+  const refreshBtn = document.getElementById('refresh-btn');
+  const lastRefreshed = document.getElementById('last-refreshed');
+
+  refreshBtn.addEventListener('click', async () => {{
+    refreshBtn.classList.add('loading');
+    refreshBtn.disabled = true;
+    try {{
+      const resp = await fetch('/refresh', {{ method: 'POST' }});
+      if (resp.ok) {{
+        const now = new Date().toLocaleString('en-US', {{
+          year: 'numeric', month: 'long', day: 'numeric',
+          hour: 'numeric', minute: '2-digit'
+        }});
+        lastRefreshed.textContent = 'Last refreshed: ' + now;
+        window.location.reload();
+      }}
+    }} catch (e) {{
+      console.error('Refresh failed', e);
+    }} finally {{
+      refreshBtn.classList.remove('loading');
+      refreshBtn.disabled = false;
+    }}
   }});
 }})();
 </script>
