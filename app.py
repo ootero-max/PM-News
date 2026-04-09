@@ -5,9 +5,12 @@ Serves the HTML digest and refreshes articles on a background schedule.
 
 import threading
 import time
+from pathlib import Path
 
-from flask import Flask, Response
+from flask import Flask, Response, send_from_directory
 from news_aggregator import main as refresh_news, HTML_PATH
+
+STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 app = Flask(__name__)
 
@@ -45,3 +48,19 @@ def index():
 def refresh():
     refresh_news()
     return "Refreshed!", 200
+
+
+@app.route("/manifest.json")
+def manifest():
+    return send_from_directory(STATIC_DIR, "manifest.json", mimetype="application/manifest+json")
+
+
+@app.route("/sw.js")
+def service_worker():
+    return send_from_directory(STATIC_DIR, "sw.js", mimetype="application/javascript")
+
+
+@app.route("/icon-192.svg")
+@app.route("/icon-512.svg")
+def icon():
+    return send_from_directory(STATIC_DIR, "icon.svg", mimetype="image/svg+xml")

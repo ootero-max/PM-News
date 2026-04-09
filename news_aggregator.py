@@ -233,6 +233,13 @@ def generate_html(articles: list[dict]) -> str:
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dazos PM News</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0b1929">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dazos News">
+<link rel="apple-touch-icon" href="/icon-192.svg">
+<link rel="icon" href="/icon-192.svg" type="image/svg+xml">
 <style>
   :root {{
     --bg: #0b1929;
@@ -565,6 +572,11 @@ def generate_html(articles: list[dict]) -> str:
     }}
   }});
 }})();
+
+// Register service worker
+if ('serviceWorker' in navigator) {{
+  navigator.serviceWorker.register('/sw.js');
+}}
 </script>
 
 </body>
